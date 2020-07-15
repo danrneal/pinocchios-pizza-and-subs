@@ -1,0 +1,294 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Menu
+{% endblock %}
+
+{% block main %}
+
+<div class="row pl-5 pr-0 m-0">
+
+    <div class="pl-5 pt-5">
+        <div id="category-list" class="sticky-top list-group pt-5">
+            <a class="list-group-item list-group-item-action btn-outline-success" href="#reg-pizza">Regular Pizza</a>
+            <a class="list-group-item list-group-item-action btn-outline-success" href="#sic-pizza">Sicilian Pizza</a>
+            <a class="list-group-item list-group-item-action btn-outline-success" href="#subs">Subs</a>
+            <a class="list-group-item list-group-item-action btn-outline-success" href="#pasta">Pasta</a>
+            <a class="list-group-item list-group-item-action btn-outline-success" href="#salads">Salads</a>
+            <a class="list-group-item list-group-item-action btn-outline-success" href="#dinner-platters">Dinner Platters</a>
+        </div>
+    </div>
+
+    <div data-spy="scroll" data-target="#category-list" data-offset="0" class="p-5 menu">
+        <div class="col-md-9 col-lg-10">
+
+            <div class="row justify-content-center mb-2">
+                <h1>Menu</h1>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead id="reg-pizza">
+                        <tr class="table-danger">
+                            <th scope="col"><h4 class="mb-0">Regular Pizza</h4></th>
+                            <th scope="col" class="text-center">Small</th>
+                            <th scope="col" class="text-center">Large</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for reg_pizza in regular_pizzas %}
+                        <tr class="clickable" data-toggle="collapse" data-target="#reg-pizza-{{ reg_pizza }}">
+                            <td>{{ reg_pizza.name }}</td>
+                            <td class="text-center border-0">{{ reg_pizza.sm_price }}</td>
+                            <td class="text-center border-0">{{ reg_pizza.lg_price }}</td>
+                        </tr>
+                        <tr class="order-form table-success">
+                            <td class="p-0 border-0" colspan="3">
+                                <form id="reg-pizza-{{ reg_pizza }}" class="needs-validation collapse m-3" novalidate action="/add_to_cart" method="post">
+                                    {% csrf_token %}
+                                    <div class="d-inline p-3">Size:</div>
+                                    {% if reg_pizza.sm_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Small" required>
+                                            <label class="form-check-label">Small</label>
+                                        </div>
+                                    {% endif %}
+                                    {% if reg_pizza.lg_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Large" required>
+                                            <label class="form-check-label mr-3">Large</label>
+                                            <div class="invalid-feedback size">
+                                                Please choose a size.
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if reg_pizza.toppings.all %}
+                                        <div class="px-3 pt-3 pb-1">Toppings:</div>
+                                        {% for topping in reg_pizza.toppings.all %}<div class="form-check form-check-inline col-md-6 col-lg-4 col-xl-3 mx-0">
+                                            <input class="form-check-input ml-3" type="checkbox" name="topping_ids" value="{{ topping.id }}">
+                                            <label class="form-check-label">{{ topping }}</label>
+                                        </div>{% endfor %}
+                                        <div class="w-100 text-center">
+                                            <input class="hidden-input" type="text" name="toppings">
+                                            <div class="invalid-feedback mt-3 toppings">
+                                                Please select the correct number of toppings.
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <input type="hidden" name="item" value="reg-pizza-{{ reg_pizza.id }}">
+                                    <div class="w-100 text-center">
+                                        <button type="submit" class="btn btn-danger px-5 m-3">Add to cart</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <thead id="sic-pizza">
+                        <tr class="table-danger">
+                            <th scope="col"><h4 class="mb-0">Sicilian Pizza</h4></th>
+                            <th scope="col" class="text-center">Small</th>
+                            <th scope="col" class="text-center">Large</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for sic_pizza in sicilian_pizzas %}
+                        <tr data-toggle="collapse" data-target="#sic-pizza-{{ sic_pizza }}" class="clickable">
+                            <td>{{ sic_pizza.name }}</td>
+                            <td class="text-center border-0">{{ sic_pizza.sm_price }}</td>
+                            <td class="text-center border-0">{{ sic_pizza.lg_price }}</td>
+                        </tr>
+                        <tr class="order-form table-success">
+                            <td class="p-0 border-0" colspan="3">
+                                <form id="sic-pizza-{{ sic_pizza }}" class="needs-validation collapse m-3" novalidate action="/add_to_cart" method="post">
+                                    {% csrf_token %}
+                                    <div class="d-inline p-3">Size:</div>
+                                    {% if sic_pizza.sm_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Small" required>
+                                            <label class="form-check-label">Small</label>
+                                        </div>
+                                    {% endif %}
+                                    {% if sic_pizza.lg_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Large" required>
+                                            <label class="form-check-label mr-3">Large</label>
+                                            <div class="invalid-feedback size">
+                                                Please choose a size.
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if sic_pizza.toppings.all %}
+                                        <div class="px-3 pt-3 pb-1">Toppings:</div>
+                                        {% for topping in sic_pizza.toppings.all %}<div class="form-check form-check-inline col-md-6 col-lg-4 col-xl-3 mx-0">
+                                            <input class="form-check-input ml-3" type="checkbox" name="topping_ids" value="{{ topping.id }}">
+                                            <label class="form-check-label">{{ topping }}</label>
+                                        </div>{% endfor %}
+                                        <div class="w-100 text-center">
+                                            <input class="hidden-input" type="text" name="toppings">
+                                            <div class="invalid-feedback mt-3 toppings">
+                                                Please select the correct number of toppings.
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <input type="hidden" name="item" value="sic-pizza-{{ sic_pizza.id }}">
+                                    <div class="w-100 text-center">
+                                        <button type="submit" class="btn btn-danger px-5 m-3">Add to cart</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <thead id="subs">
+                        <tr class="table-danger">
+                            <th scope="col"><h4 class="mb-0">Subs</h4></th>
+                            <th scope="col" class="text-center">Small</th>
+                            <th scope="col" class="text-center">Large</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for sub in subs %}
+                        <tr data-toggle="collapse" data-target="#sub-{{ sub }}" class="clickable">
+                            <td>{{ sub.name }}</td>
+                            <td class="text-center border-0">{{ sub.sm_price }}</td>
+                            <td class="text-center border-0">{{ sub.lg_price }}</td>
+                        </tr>
+                        <tr class="order-form table-success">
+                            <td class="p-0 border-0" colspan="3">
+                                <form id="sub-{{ sub }}" class="needs-validation collapse m-3" novalidate action="/add_to_cart" method="post">
+                                    {% csrf_token %}
+                                    <div class="d-inline p-3">Size:</div>
+                                    {% if sub.sm_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Small" required>
+                                            <label class="form-check-label">Small</label>
+                                        </div>
+                                    {% endif %}
+                                    {% if sub.lg_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Large" required>
+                                            <label class="form-check-label mr-3">Large</label>
+                                            <div class="invalid-feedback size">
+                                                Please choose a size.
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if sub.additions.all %}
+                                        <div class="px-3 pt-3 pb-1">Additions:</div>
+                                        {% for addition in sub.additions.all %}<div class="form-check form-check-inline col-lg-6 col-xl-4 mx-0">
+                                            <input class="form-check-input ml-3" type="checkbox" name="addition_ids" value="{{ addition.id }}">
+                                            <label class="form-check-label">{{ addition }}</label>
+                                        </div>{% endfor %}
+                                    {% endif %}
+                                    <input type="hidden" name="item" value="sub-{{ sub.id }}">
+                                    <div class="w-100 text-center">
+                                        <button type="submit" class="btn btn-danger px-5 m-3">Add to cart</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <thead id="pasta">
+                        <tr class="table-danger">
+                            <th scope="col"><h4 class="mb-0">Pasta</h4></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for pasta_dish in pasta %}
+                        <tr data-toggle="collapse" data-target="#pasta-{{ pasta_dish }}" class="clickable">
+                            <td>{{ pasta_dish.name }}</td>
+                            <td colspan="2" class="text-center border-0">{{ pasta_dish.price }}</td>
+                        </tr>
+                        <tr class="order-form table-success">
+                            <td class="p-0 border-0" colspan="3">
+                                <form id="pasta-{{ pasta_dish }}" class="needs-validation collapse m-3" novalidate action="/add_to_cart" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item" value="pasta-{{ pasta_dish.id }}">
+                                    <div class="w-100 text-center">
+                                        <button type="submit" class="btn btn-danger px-5 m-3">Add to cart</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <thead id="salads">
+                        <tr class="table-danger">
+                            <th scope="col"><h4 class="mb-0">Salads</h4></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for salad in salads %}
+                        <tr data-toggle="collapse" data-target="#salad-{{ salad }}" class="clickable">
+                            <td>{{ salad.name }}</td>
+                            <td colspan="2" class="text-center border-0">{{ salad.price }}</td>
+                        </tr>
+                        <tr class="order-form table-success">
+                            <td class="p-0 border-0" colspan="3">
+                                <form id="salad-{{ salad }}" class="needs-validation collapse m-3" novalidate action="/add_to_cart" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item" value="salad-{{ salad.id }}">
+                                    <div class="w-100 text-center">
+                                        <button type="submit" class="btn btn-danger px-5 m-3">Add to cart</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <thead id="dinner-platters">
+                        <tr class="table-danger">
+                            <th scope="col"><h4 class="mb-0">Dinner Platters</h4></th>
+                            <th scope="col" class="text-center">Small</th>
+                            <th scope="col" class="text-center">Large</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for dinner_platter in dinner_platters %}
+                        <tr data-toggle="collapse" data-target="#dinner-platter-{{ dinner_platter }}" class="clickable">
+                            <td>{{ dinner_platter.name }}</td>
+                            <td class="text-center border-0">{{ dinner_platter.sm_price }}</td>
+                            <td class="text-center border-0">{{ dinner_platter.lg_price }}</td>
+                        </tr>
+                        <tr class="order-form table-success">
+                            <td class="p-0 border-0" colspan="3">
+                                <form id="dinner-platter-{{ dinner_platter }}" class="needs-validation collapse m-3" novalidate action="/add_to_cart" method="post">
+                                    {% csrf_token %}
+                                    <div class="d-inline p-3">Size:</div>
+                                    {% if dinner_platter.sm_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Small" required>
+                                            <label class="form-check-label">Small</label>
+                                        </div>
+                                    {% endif %}
+                                    {% if dinner_platter.lg_price %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" value="Large" required>
+                                            <label class="form-check-label mr-3">Large</label>
+                                            <input type="hidden" name="item" value="dinner-platter-{{ dinner_platter.id }}">
+                                            <div class="invalid-feedback size">
+                                                Please choose a size.
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="w-100 text-center">
+                                        <button type="submit" class="btn btn-danger px-5 m-3">Add to cart</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

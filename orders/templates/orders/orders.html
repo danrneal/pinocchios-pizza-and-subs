@@ -1,0 +1,129 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Orders
+{% endblock %}
+
+{% block main %}
+
+<div class="container p-5 receipt">
+    {% if current_orders %}
+        <div class="row justify-content-center">
+            <h1>Current Orders</h1>
+        </div>
+        <div class="dropdown-divider"></div>
+        {% for order in current_orders.all %}
+            <div class="my-3">
+                <a class="order" data-toggle="collapse" href="#order-{{ order.id }}">
+                    <i class="fa fa-angle-right mr-1"></i>
+                    {{ order.date }}
+                </a>
+            </div>
+            <div class="collapse" id="order-{{ order.id }}">
+                {% for cart_item in order.cart_items.all %}
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6>{{ cart_item.item.name}}</h6>
+                        </div>
+                        <div>
+                            <h6>${{ cart_item.price }}</h6>
+                        </div>
+                    </div>
+                    {% if cart_item.size %}
+                        <p class="mb-1">Size: <em>{{ cart_item.size }}</em></p>
+                    {% endif %}
+                    {% if cart_item.toppings.all %}
+                        <ul class="mb-1">
+                        {% for topping in cart_item.toppings.all %}
+                            <li>{{ topping.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if cart_item.additions.all %}
+                        <ul class="mb-1">
+                        {% for addition in cart_item.additions.all %}
+                            <li>{{ addition.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>          
+                {% endfor %}
+                <div class="dropdown-divider"></div>          
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>Total:</h4>
+                    </div>
+                    <div>
+                        <h4>${{ order.total_price }}</h4>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if past_orders %}
+        {% if current_orders %}
+            <div class="row justify-content-center mt-5">
+                <h1>Past Orders</h1>
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <h1>Past Orders</h1>
+            </div>
+        {% endif %}
+        <div class="dropdown-divider"></div>
+        {% for order in past_orders.all %}
+            <div class="my-3">
+                <a class="order" data-toggle="collapse" href="#order-{{ order.id }}">
+                    <i class="fa fa-angle-right mr-1"></i>
+                    {{ order.date }}
+                </a>
+            </div>
+            <div class="collapse" id="order-{{ order.id }}">
+                {% for cart_item in order.cart_items.all %}
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6>{{ cart_item.item.name}}</h6>
+                        </div>
+                        <div>
+                            <h6>${{ cart_item.price }}</h6>
+                        </div>
+                    </div>
+                    {% if cart_item.size %}
+                        <p class="mb-1">Size: <em>{{ cart_item.size }}</em></p>
+                    {% endif %}
+                    {% if cart_item.toppings.all %}
+                        <ul class="mb-1">
+                        {% for topping in cart_item.toppings.all %}
+                            <li>{{ topping.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if cart_item.additions.all %}
+                        <ul class="mb-1">
+                        {% for addition in cart_item.additions.all %}
+                            <li>{{ addition.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>          
+                {% endfor %}
+                <div class="dropdown-divider"></div>          
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>Total:</h4>
+                    </div>
+                    <div>
+                        <h4>${{ order.total_price }}</h4>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if not past_orders and not current_orders %}
+        <div class="text-center my-5">
+            <h2>You do not have any orders.</h2>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

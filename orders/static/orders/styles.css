@@ -1,0 +1,72 @@
+.cart-icon {
+    font-size: 36px;
+    color: white;
+    margin-right: -16px;
+}
+
+.cart-count {
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.table-hover .order-form:hover>td {
+    background-color: #02B875;
+    color: #FFF;
+}
+
+.order-form>td {
+    border-radius: 0 0 25px 25px;
+}
+
+.list-group-item:hover {
+    border-color: rgba(0,0,0,0.125)
+}
+
+.menu {
+    height: calc(100vh - 57px);
+    width: calc(100% - 189px);
+    overflow-y: auto;
+}
+
+.size, .toppings,
+.was-validated .form-check-input:valid ~ .form-check-label,
+.was-validated .form-check-input:invalid ~ .form-check-label {
+    color: #FFF;
+}
+
+.size, .toppings {
+    font-size: 100%;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.receipt {
+    max-width: 576px;
+}
+
+.order .fa {
+    transition: 0.25s;
+}
+
+.order[aria-expanded="true"] .fa {
+    transform: rotate(90deg);
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    margin: 1px;
+    background: #FFF;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CCC;
+    border-radius: 5px;
+}

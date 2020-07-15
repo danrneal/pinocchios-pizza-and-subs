@@ -1,0 +1,69 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block main %}
+
+<div class="container p-5 receipt">
+
+    <div class="row justify-content-center mb-3">
+        <h1>Cart</h1>
+    </div>
+
+    <div class="dropdown-divider"></div>
+    {% if cart_items.all %}
+        {% for cart_item in cart_items.all %}
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5>{{ cart_item.item.name}}</h5>
+                </div>
+                <div>
+                    <h5>${{ cart_item.price }}</h5>
+                </div>
+            </div>
+            {% if cart_item.size %}
+                <p class="mb-1">Size: <em>{{ cart_item.size }}</em></p>
+            {% endif %}
+            {% if cart_item.toppings.all %}
+                <ul class="mb-1">
+                {% for topping in cart_item.toppings.all %}
+                    <li>{{ topping.name }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if cart_item.additions.all %}
+                <ul class="mb-1">
+                {% for addition in cart_item.additions.all %}
+                    <li>{{ addition.name }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <form action="/cart" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="cart_item_id" value="{{ cart_item.id }}">
+                <button type="submit" class="button btn btn-link p-0">Remove</button>
+            </form>
+            <div class="dropdown-divider"></div>          
+        {% endfor %}
+        <div class="dropdown-divider"></div>          
+        <div class="d-flex justify-content-between">
+            <div>
+                <h2>Total:</h2>
+            </div>
+            <div>
+                <h2>${{ total_price }}</h2>
+            </div>
+        </div>
+        <div class="w-100 text-center">
+            <button type="submit" class="button btn btn-lg btn-danger px-5 m-3" data-total="{{ total_price }}" id="checkout">Checkout</button>
+        </div>
+    {% else %}
+        <div class="text-center my-5">
+            <h2>Please add items to your cart before checkout.</h2>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

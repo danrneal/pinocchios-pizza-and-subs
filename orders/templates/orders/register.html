@@ -1,0 +1,57 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+
+<div class="container p-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <form class="needs-validation" id="register" novalidate action="/register" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input class="form-control" id="first_name" name="first_name" placeholder="First Name" type="text" required>
+                    <div class="invalid-feedback">
+                        First Name may not be left blank.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="last_name" name="last_name" placeholder="Last Name" type="text" required>
+                    <div class="invalid-feedback">
+                        Last Name may not be left blank.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="username" name="username" placeholder="Username" type="text" required>
+                    <div class="invalid-feedback" id="invalid-username"></div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="email" name="email" placeholder="name@example.com" type="email" required>
+                    <div class="invalid-feedback" id="invalid-email"></div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="password" name="password" placeholder="Password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z]).{8,}" required>
+                    <div class="invalid-feedback">
+                        Password must be at least 8 characters; must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm Password" type="password" required>
+                    <div class="invalid-feedback">
+                        Passwords must match.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <small class="form-text text-muted" id="requirements">
+                        Password must be at least 8 characters; must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.
+                    </small>
+                </div>
+                <button class="btn btn-outline-success" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
